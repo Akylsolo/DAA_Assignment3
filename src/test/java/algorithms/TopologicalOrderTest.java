@@ -21,7 +21,7 @@ public class TopologicalOrderTest {
     void testValidOrderOnDAGs() {
         Random rnd = new Random(33221);
         for (int trial = 0; trial < 50; trial++) {
-            int n = 10 + rnd.nextInt(91); // 10 to 100
+            int n = 10 + rnd.nextInt(91);
             int m = rnd.nextInt(n * 4 + 1);
             long seed = rnd.nextLong();
 

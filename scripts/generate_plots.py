@@ -38,17 +38,12 @@ def main():
         "DagShortestPath": "#9467bd"
     }
 
-    # ==========================================
-    # PLOT 1: Operations vs n (Log-Log Axes)
-    # One line per algorithm and density
-    # ==========================================
     fig, ax = plt.subplots(figsize=(10, 6), dpi=300)
     for algo in algorithms:
         for density, ls in [("sparse", "-"), ("dense", "--")]:
             data = [r for r in rows if r["algorithm"] == algo and r["density"] == density]
             data.sort(key=lambda x: x["n"])
             ns = [d["n"] for d in data]
-            # Total operations: edgeScans + dsuOps + comparisons
             total_ops = [d["edge_scans"] + d["dsu_ops"] + d["comparisons"] for d in data]
             label = f"{algo} ({density})"
             ax.plot(ns, total_ops, marker='o' if density == "sparse" else 's',
@@ -64,12 +59,7 @@ def main():
     plot1_path = os.path.join(output_dir, "plot1_operations_vs_n.png")
     plt.savefig(plot1_path)
     plt.close()
-    print(f"[OK] Generated: {plot1_path}")
 
-    # ==========================================
-    # PLOT 2: Scans per Edge (edgeScans / m vs n)
-    # Flat line is confirmation of linear work
-    # ==========================================
     fig, ax = plt.subplots(figsize=(10, 6), dpi=300)
     for algo in algorithms:
         for density, ls in [("sparse", "-"), ("dense", "--")]:
@@ -93,12 +83,7 @@ def main():
     plot2_path = os.path.join(output_dir, "plot2_scans_per_edge.png")
     plt.savefig(plot2_path)
     plt.close()
-    print(f"[OK] Generated: {plot2_path}")
 
-    # ==========================================
-    # PLOT 3: Share of Edges Kruskal Examines
-    # edgeScans / m for Kruskal on sparse & dense
-    # ==========================================
     fig, ax = plt.subplots(figsize=(9, 6), dpi=300)
     kruskal_sparse = [r for r in rows if r["algorithm"] == "Kruskal" and r["density"] == "sparse"]
     kruskal_dense = [r for r in rows if r["algorithm"] == "Kruskal" and r["density"] == "dense"]
@@ -128,13 +113,7 @@ def main():
     plot3_path = os.path.join(output_dir, "plot3_kruskal_edge_share.png")
     plt.savefig(plot3_path)
     plt.close()
-    print(f"[OK] Generated: {plot3_path}")
 
-    # ==========================================
-    # SLOPE CHECK
-    # Fit the slope of edgeScans curves on log-log axes
-    # ==========================================
-    print("\n=== SLOPE CHECK (Linear Regression on Log-Log Scale: log10(edgeScans) vs log10(n)) ===")
     for algo in ["Kosaraju", "Kahn", "DagShortestPath", "Kruskal", "Prim"]:
         for density in ["sparse", "dense"]:
             data = [r for r in rows if r["algorithm"] == algo and r["density"] == density]
@@ -142,7 +121,6 @@ def main():
             log_n = np.log10([d["n"] for d in data])
             log_scans = np.log10([d["edge_scans"] for d in data])
             slope, intercept = np.polyfit(log_n, log_scans, 1)
-            print(f"Algorithm: {algo:16s} | Density: {density:6s} | Slope: {slope:.4f}")
 
 if __name__ == "__main__":
     main()

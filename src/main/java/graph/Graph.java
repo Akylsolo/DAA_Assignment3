@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Standard Graph representation using adjacency lists.
- * Supports both directed and undirected weighted graphs.
- * Vertices are 0-indexed: 0 .. n - 1.
- */
 public class Graph {
     private final int n;
     private final boolean directed;
@@ -28,11 +23,6 @@ public class Graph {
         this.edges = new ArrayList<>();
     }
 
-    /**
-     * Adds a weighted edge between u and v.
-     * For undirected graphs, edges are added in both directions in the adjacency list.
-     * Supports self-loops and parallel edges without exception.
-     */
     public void addEdge(int u, int v, int weight) {
         checkVertex(u);
         checkVertex(v);
@@ -42,7 +32,7 @@ public class Graph {
         if (!directed && u != v) {
             adj.get(v).add(new Edge(v, u, weight));
         } else if (!directed && u == v) {
-            // self-loop on undirected: already added once to adj.get(u)
+
         }
     }
 
@@ -73,9 +63,6 @@ public class Graph {
         return Collections.unmodifiableList(edges);
     }
 
-    /**
-     * Returns the transpose/reversed graph (only valid for directed graphs).
-     */
     public Graph reverse() {
         if (!directed) {
             return this;
@@ -87,15 +74,11 @@ public class Graph {
         return rev;
     }
 
-    /**
-     * Computes in-degrees for all vertices.
-     */
     public int[] computeInDegrees() {
         int[] inDegree = new int[n];
         for (List<Edge> neighborList : adj) {
             for (Edge e : neighborList) {
-                // If undirected, each undirected edge appears in neighborList of both u and v.
-                // For directed, neighborList only has outgoing edges.
+
                 if (directed) {
                     inDegree[e.getV()]++;
                 }
@@ -109,9 +92,6 @@ public class Graph {
         return inDegree;
     }
 
-    /**
-     * Computes out-degrees for all vertices.
-     */
     public int[] computeOutDegrees() {
         int[] outDegree = new int[n];
         for (int i = 0; i < n; i++) {

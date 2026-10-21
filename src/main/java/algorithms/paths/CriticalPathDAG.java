@@ -8,17 +8,12 @@ import graph.Graph;
 
 import java.util.*;
 
-/**
- * Implements Bonus Task B:
- * 1) Builds the Condensation Graph from SCC components (which is guaranteed to be a DAG).
- * 2) Computes the Longest / Critical Path in O(V + E) by topological relaxation with flipped signs.
- */
 public class CriticalPathDAG {
 
     public static class CriticalPathResult {
         private final Graph condensationGraph;
         private final long criticalPathLength;
-        private final List<Integer> criticalPath; // sequence of SCC component IDs
+        private final List<Integer> criticalPath;
 
         public CriticalPathResult(Graph condensationGraph, long criticalPathLength, List<Integer> criticalPath) {
             this.condensationGraph = condensationGraph;
@@ -39,14 +34,10 @@ public class CriticalPathDAG {
         }
     }
 
-    /**
-     * Builds the condensation DAG where each SCC is contracted into a single vertex.
-     */
     public static Graph buildCondensationGraph(Graph original, SCCResult scc) {
         int compCount = scc.getComponentCount();
         Graph condensation = new Graph(compCount, true);
 
-        // Map to keep maximum edge weight between pairs of components
         Map<Long, Integer> maxEdgeWeight = new HashMap<>();
 
         for (Edge e : original.getEdges()) {
@@ -68,10 +59,6 @@ public class CriticalPathDAG {
         return condensation;
     }
 
-    /**
-     * Finds the longest (critical) path in the condensation DAG.
-     * Uses topological relaxation with negated weights.
-     */
     public static CriticalPathResult findCriticalPath(Graph condensationDAG) {
         int n = condensationDAG.getN();
         if (n == 0) {
@@ -96,7 +83,6 @@ public class CriticalPathDAG {
             }
         }
 
-        // Single pass relaxation finding maximum distance (longest path)
         for (int u : topo) {
             if (maxDist[u] <= Long.MIN_VALUE / 8) continue;
             for (Edge e : condensationDAG.getNeighbors(u)) {

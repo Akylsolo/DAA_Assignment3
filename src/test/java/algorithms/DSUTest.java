@@ -65,7 +65,6 @@ public class DSUTest {
             assertEquals(ref.count(), dsu.components(), "Component count mismatch");
         }
 
-        // Final verification across random pairs
         for (int i = 0; i < 2000; i++) {
             int u = rnd.nextInt(n);
             int v = rnd.nextInt(n);

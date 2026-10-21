@@ -19,9 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DAGShortestPathTest {
 
-    /**
-     * Bellman-Ford reference implementation with virtual super-source connected to all 0-in-degree vertices with weight 0.
-     */
     static long[] bellmanFordReference(Graph dag) {
         int n = dag.getN();
         int[] inDegree = dag.computeInDegrees();
@@ -35,7 +32,6 @@ public class DAGShortestPathTest {
             }
         }
 
-        // Relax |V| - 1 times
         for (int iter = 0; iter < n - 1; iter++) {
             boolean changed = false;
             for (Edge e : dag.getEdges()) {
@@ -58,10 +54,9 @@ public class DAGShortestPathTest {
     void testAgainstBellmanFord() {
         Random rnd = new Random(77889);
         for (int trial = 0; trial < 50; trial++) {
-            int n = 10 + rnd.nextInt(41); // 10 to 50 vertices
+            int n = 10 + rnd.nextInt(41);
             int m = rnd.nextInt(n * 4 + 1);
 
-            // Generate DAG with potentially negative weights
             Graph dag = new Graph(n, true);
             int[] rank = new int[n];
             for (int i = 0; i < n; i++) rank[i] = i;
@@ -77,7 +72,7 @@ public class DAGShortestPathTest {
                 if (rank[a] > rank[b]) {
                     int t = a; a = b; b = t;
                 }
-                // Weights from -50 to +100
+
                 int w = -50 + rnd.nextInt(151);
                 dag.addEdge(a, b, w);
             }
@@ -104,11 +99,9 @@ public class DAGShortestPathTest {
                 assertFalse(path.isEmpty());
                 assertEquals(v, path.get(path.size() - 1));
 
-                // First vertex on path must be a super-source (in-degree 0)
                 int start = path.get(0);
                 assertEquals(0, dag.computeInDegrees()[start]);
 
-                // Verify sum of edge weights along path matches distance
                 long calculatedDist = 0;
                 for (int i = 0; i < path.size() - 1; i++) {
                     int u = path.get(i);

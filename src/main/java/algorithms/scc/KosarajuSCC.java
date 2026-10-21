@@ -8,12 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Kosaraju's two-pass algorithm for Strongly Connected Components.
- * Uses an explicit iterative stack to guarantee survival at n = 100 000 vertices.
- * First pass: records finish order on the original graph.
- * Second pass: traverses the reversed graph in decreasing finish order to extract SCCs.
- */
 public class KosarajuSCC {
 
     public static SCCResult findSCC(Graph graph) {
@@ -30,11 +24,9 @@ public class KosarajuSCC {
         int[] finishOrder = new int[n];
         int[] orderIdx = new int[]{0};
 
-        // Explicit stack structures for Iterative DFS Pass 1
         int[] stack = new int[n];
         int[] edgeIdx = new int[n];
 
-        // Pass 1: compute finish order on original graph
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
                 int top = 0;
@@ -65,7 +57,6 @@ public class KosarajuSCC {
             }
         }
 
-        // Pass 2: Traverse reversed graph in reverse finish order
         Graph revGraph = graph.reverse();
         Arrays.fill(visited, false);
         int[] componentId = new int[n];

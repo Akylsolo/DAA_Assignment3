@@ -25,11 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Executes benchmarks for all graph algorithms across the 10 reference graphs.
- * Self-checks reference values, verifies MST agreement, validates topological ordering,
- * measures median wall-clock time over 5 runs, and produces results/results.csv.
- */
 public class BenchmarkRunner {
 
     public static class GraphSpec {
@@ -96,11 +91,9 @@ public class BenchmarkRunner {
         for (GraphSpec spec : BENCHMARK_GRAPHS) {
             System.out.printf("\n>>> Evaluating Graph: n=%d, m=%d (%s) <<<\n", spec.n, spec.m, spec.density);
 
-            // 1. Undirected Graph for MST (Kruskal & Prim)
             System.out.println("  [Generating Undirected Graph...]");
             Graph undirected = GraphGenerator.generateUndirected(spec.n, spec.m, 42);
 
-            // Kruskal Benchmark
             System.out.print("  -> Running Kruskal... ");
             double[] kruskalTimes = new double[NUM_RUNS];
             OperationMetrics kruskalMetrics = null;
@@ -131,7 +124,6 @@ public class BenchmarkRunner {
             kruskalRow.result = kruskalResult.getTotalWeight();
             rows.add(kruskalRow);
 
-            // Prim Benchmark
             System.out.print("  -> Running Prim... ");
             double[] primTimes = new double[NUM_RUNS];
             OperationMetrics primMetrics = null;
@@ -166,7 +158,6 @@ public class BenchmarkRunner {
             primRow.result = primResult.getTotalWeight();
             rows.add(primRow);
 
-            // 2. Directed Graph for Kosaraju SCC
             System.out.println("  [Generating Directed Graph...]");
             Graph directed = GraphGenerator.generateDirected(spec.n, spec.m, 42);
 
@@ -204,18 +195,15 @@ public class BenchmarkRunner {
             kosarajuRow.result = kosarajuResult.getComponentCount();
             rows.add(kosarajuRow);
 
-            // Bonus Check: Tarjan SCC
             SCCResult tarjanResult = TarjanSCC.findSCC(directed);
             if (tarjanResult.getComponentCount() != kosarajuResult.getComponentCount()) {
                 throw new IllegalStateException("Tarjan and Kosaraju component counts disagree: "
                         + tarjanResult.getComponentCount() + " vs " + kosarajuResult.getComponentCount());
             }
 
-            // 3. DAG for Kahn and DagShortestPath
             System.out.println("  [Generating DAG...]");
             Graph dag = GraphGenerator.generateDAG(spec.n, spec.m, 42);
 
-            // Kahn Benchmark
             System.out.print("  -> Running Kahn... ");
             double[] kahnTimes = new double[NUM_RUNS];
             OperationMetrics kahnMetrics = null;
@@ -255,7 +243,6 @@ public class BenchmarkRunner {
             kahnRow.result = kahnResult.getProcessedCount();
             rows.add(kahnRow);
 
-            // DagShortestPath Benchmark
             System.out.print("  -> Running DagShortestPath... ");
             double[] dspTimes = new double[NUM_RUNS];
             OperationMetrics dspMetrics = null;
@@ -291,7 +278,6 @@ public class BenchmarkRunner {
             rows.add(dspRow);
         }
 
-        // Write results to results/results.csv
         writeCsv(rows, Paths.get("results", "results.csv"));
         System.out.println("\n[SUCCESS] All 50 benchmark rows generated and verified against reference values!");
         System.out.println("Results written to results/results.csv");

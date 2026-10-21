@@ -2,15 +2,6 @@ package algorithms.dsu;
 
 import metrics.OperationMetrics;
 
-/**
- * Disjoint Set Union (DSU) / Union-Find data structure.
- * Implements both:
- * 1) Path compression (halving or full compression)
- * 2) Union by rank
- * 
- * Provides makeSet, find, union, components.
- * Tracks find calls and successful union calls.
- */
 public class DisjointSetUnion {
     private int[] parent;
     private int[] rank;
@@ -28,9 +19,6 @@ public class DisjointSetUnion {
         makeSet(n);
     }
 
-    /**
-     * Initializes n disjoint sets {0}, {1}, ..., {n-1}.
-     */
     public void makeSet(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Number of elements cannot be negative: " + n);
@@ -46,16 +34,13 @@ public class DisjointSetUnion {
         this.successfulUnionCount = 0;
     }
 
-    /**
-     * Finds the representative root of element x with path compression.
-     */
     public int find(int x) {
         findCount++;
         if (metrics != null) {
             metrics.incDsuOps();
         }
         checkElement(x);
-        // Iterative two-pass path compression (completely stack-safe even for n = 10^7)
+
         int root = x;
         while (root != parent[root]) {
             root = parent[root];
@@ -69,10 +54,6 @@ public class DisjointSetUnion {
         return root;
     }
 
-    /**
-     * Unites the sets containing elements x and y using union by rank.
-     * @return true if elements were in different sets, false if already in same set.
-     */
     public boolean union(int x, int y) {
         if (metrics != null) {
             metrics.incDsuOps();
@@ -98,9 +79,6 @@ public class DisjointSetUnion {
         return true;
     }
 
-    /**
-     * Directly unites two known roots (rootX, rootY) without additional find calls.
-     */
     public boolean unionRoots(int rootX, int rootY) {
         if (metrics != null) {
             metrics.incDsuOps();

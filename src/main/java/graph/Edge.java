@@ -2,9 +2,6 @@ package graph;
 
 import java.util.Objects;
 
-/**
- * Represents a weighted directed edge from u to v with an integer weight w.
- */
 public class Edge implements Comparable<Edge> {
     private final int u;
     private final int v;

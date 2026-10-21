@@ -9,11 +9,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Kruskal's algorithm for finding Minimum Spanning Tree / Forest.
- * Uses Disjoint Set Union with union by rank and path compression.
- * Returns a minimum spanning forest if graph is disconnected.
- */
 public class KruskalMST {
 
     public static MSTResult findMST(Graph graph) {
@@ -26,10 +21,8 @@ public class KruskalMST {
             return new MSTResult(new ArrayList<>(), 0, 0, metrics);
         }
 
-        // Copy edges for sorting
         List<Edge> sortedEdges = new ArrayList<>(graph.getEdges());
 
-        // Sort edges by weight while counting comparisons
         sortedEdges.sort((e1, e2) -> {
             metrics.incComparisons();
             int cmp = Integer.compare(e1.getWeight(), e2.getWeight());
@@ -51,7 +44,7 @@ public class KruskalMST {
                 dsu.unionRoots(rootU, rootV);
                 mstEdges.add(edge);
                 totalWeight += edge.getWeight();
-                // Early exit: once a single component spans all n vertices
+
                 if (mstEdges.size() == n - 1) {
                     break;
                 }

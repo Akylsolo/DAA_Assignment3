@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Result of single-pass DAG shortest path computation.
- */
 public class ShortestPathResult {
     private final long[] distances;
     private final int[] parent;
@@ -40,12 +37,9 @@ public class ShortestPathResult {
         return sum;
     }
 
-    /**
-     * Reconstructs the shortest path from the virtual super-source to target.
-     */
     public List<Integer> getPath(int target) {
         if (distances[target] >= Long.MAX_VALUE / 4) {
-            return Collections.emptyList(); // unreachable
+            return Collections.emptyList();
         }
         List<Integer> path = new ArrayList<>();
         for (int curr = target; curr != -1; curr = parent[curr]) {

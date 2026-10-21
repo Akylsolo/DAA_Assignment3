@@ -9,11 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-/**
- * Prim's algorithm for finding Minimum Spanning Tree / Forest.
- * Uses a PriorityQueue of candidate edges.
- * Grows tree from vertex 0, and continues to remaining components if disconnected.
- */
 public class PrimMST {
 
     public static MSTResult findMST(Graph graph) {
@@ -55,7 +50,6 @@ public class PrimMST {
                     Edge minEdge = pq.poll();
                     int to = minEdge.getV();
 
-                    // Skip vertex already in tree
                     if (inTree[to]) {
                         continue;
                     }

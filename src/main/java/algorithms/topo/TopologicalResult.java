@@ -5,9 +5,6 @@ import metrics.OperationMetrics;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Result of Topological Sorting using Kahn's algorithm.
- */
 public class TopologicalResult {
     private final boolean hasCycle;
     private final List<Integer> order;

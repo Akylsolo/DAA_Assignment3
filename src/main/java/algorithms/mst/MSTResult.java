@@ -6,9 +6,6 @@ import metrics.OperationMetrics;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Result of Minimum Spanning Tree / Forest algorithm.
- */
 public class MSTResult {
     private final List<Edge> edges;
     private final long totalWeight;

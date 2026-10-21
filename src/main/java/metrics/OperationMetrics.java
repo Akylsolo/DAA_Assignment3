@@ -1,12 +1,5 @@
 package metrics;
 
-/**
- * Tracks reproducible operation counters inside algorithms:
- * - dsuOps: find + union operations in DSU
- * - edgeScans: edges inspected during graph traversal or edge iteration
- * - comparisons: edge weights compared (sorting, heaps)
- * - maxDepth: maximum depth of explicit stacks during iterative traversals
- */
 public class OperationMetrics {
     private long dsuOps;
     private long edgeScans;

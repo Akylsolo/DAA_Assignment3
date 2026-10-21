@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Result of Strongly Connected Components decomposition.
- */
 public class SCCResult {
     private final int componentCount;
-    private final int[] componentId; // vertex -> component id (0 .. componentCount - 1)
+    private final int[] componentId;
     private final List<List<Integer>> components;
     private final OperationMetrics metrics;
 

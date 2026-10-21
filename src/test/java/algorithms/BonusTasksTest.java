@@ -33,7 +33,7 @@ public class BonusTasksTest {
             SCCResult tarjan = TarjanSCC.findSCC(g);
 
             assertEquals(kosaraju.getComponentCount(), tarjan.getComponentCount());
-            // Tarjan scans m edges, Kosaraju scans 2m edges
+
             assertEquals(m, tarjan.getMetrics().getEdgeScans());
             assertEquals(2L * m, kosaraju.getMetrics().getEdgeScans());
         }
@@ -49,7 +49,6 @@ public class BonusTasksTest {
         assertTrue(condensation.isDirected());
         assertEquals(scc.getComponentCount(), condensation.getN());
 
-        // Check condensation graph has NO cycles (Kahn should order all vertices)
         TopologicalResult topo = KahnTopologicalSort.sort(condensation);
         assertFalse(topo.hasCycle(), "Condensation graph must be strictly a DAG");
         assertEquals(condensation.getN(), topo.getProcessedCount());

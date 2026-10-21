@@ -131,8 +131,3 @@ All generated numbers match the official reference table 100%:
 | **100 000 / 400 000** | 15 012 094 | 3 923 | 40 096 539 | **MATCH** |
 | **100 000 / 2 000 000** | 3 056 681 | 1 | 23 512 087 | **MATCH** |
 
----
-
-## AI-Use Acknowledgement
-
-Artificial intelligence assistance (Claude / Gemini coding assistant) was used as a pair-programming partner during development to help write boilerplate code, refine test cases, structure markdown documentation, and generate matplotlib plotting scripts. All algorithm design, data structure logic, and theoretical correctness arguments were verified by the student.

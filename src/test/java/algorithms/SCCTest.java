@@ -18,9 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SCCTest {
 
-    /**
-     * Brute force SCC: u and v are in same SCC iff u can reach v AND v can reach u.
-     */
     static List<Set<Integer>> bruteForceSCC(Graph graph) {
         int n = graph.getN();
         boolean[][] reachable = new boolean[n][n];
@@ -65,20 +62,17 @@ public class SCCTest {
     private void assertSameComponents(List<Set<Integer>> expected, SCCResult actual, int n) {
         assertEquals(expected.size(), actual.getComponentCount(), "Number of components must match");
 
-        // Map actual components to Sets
         List<Set<Integer>> actualSets = new ArrayList<>();
         for (List<Integer> comp : actual.getComponents()) {
             actualSets.add(new HashSet<>(comp));
         }
 
-        // Sort both by min element for direct comparison
         Comparator<Set<Integer>> compComparator = Comparator.comparingInt(s -> s.stream().min(Integer::compare).orElse(0));
         expected.sort(compComparator);
         actualSets.sort(compComparator);
 
         assertEquals(expected, actualSets, "Components partition must be identical");
 
-        // Verify componentId mapping
         for (Set<Integer> comp : actualSets) {
             int id = -1;
             for (int v : comp) {
@@ -96,8 +90,8 @@ public class SCCTest {
     void testAgainstBruteForce() {
         Random rnd = new Random(54321);
         for (int trial = 0; trial < 20; trial++) {
-            int n = 20 + rnd.nextInt(81); // 20 to 100 vertices
-            int m = rnd.nextInt(n * 5 + 1); // varying density
+            int n = 20 + rnd.nextInt(81);
+            int m = rnd.nextInt(n * 5 + 1);
             long seed = rnd.nextLong();
 
             Graph graph = GraphGenerator.generateDirected(n, m, seed);
@@ -139,9 +133,6 @@ public class SCCTest {
         Graph graph = GraphReader.readFromFile(Paths.get("data", "graph_cyclic.txt"));
         assertEquals(5, graph.getN());
 
-        // In data/graph_cyclic.txt:
-        // 0 -> 1 -> 2 -> 0 is an SCC of size 3 {0, 1, 2}
-        // 2 -> 3, 3 -> 4: 3 and 4 are individual SCCs {3}, {4}
         SCCResult kosaraju = KosarajuSCC.findSCC(graph);
         SCCResult tarjan = TarjanSCC.findSCC(graph);
 

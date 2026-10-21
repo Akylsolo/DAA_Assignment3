@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>kz.astanait.daa</groupId>
-    <artifactId>daa-assignment3</artifactId>
+    <artifactId>DAA_Assignment3</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -52,6 +52,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration>
+                    <argLine>-Xmx2g</argLine>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

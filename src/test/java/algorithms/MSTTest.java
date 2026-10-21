@@ -23,8 +23,8 @@ public class MSTTest {
     void test100RandomConnectedGraphs() {
         Random rnd = new Random(9876);
         for (int t = 0; t < 100; t++) {
-            int n = 10 + rnd.nextInt(41); // 10 to 50 vertices
-            int m = n - 1 + rnd.nextInt(150); // up to dense
+            int n = 10 + rnd.nextInt(41);
+            int m = n - 1 + rnd.nextInt(150);
             long seed = rnd.nextLong();
 
             Graph graph = GraphGenerator.generateUndirected(n, m, seed);
@@ -51,10 +51,10 @@ public class MSTTest {
         MSTResult prim = PrimMST.findMST(graph);
 
         assertEquals(kruskal.getTotalWeight(), prim.getTotalWeight());
-        // Disconnected graph has 3 components: {0,1,2}, {3,4}, {5}
+
         assertEquals(3, kruskal.getComponents());
         assertEquals(3, prim.getComponents());
-        // A forest with n vertices and c components has n - c edges = 6 - 3 = 3 edges
+
         assertEquals(3, kruskal.getEdges().size());
         assertEquals(3, prim.getEdges().size());
     }
@@ -64,11 +64,11 @@ public class MSTTest {
     void testParallelEdgesAndSelfLoops() {
         Graph graph = new Graph(4, false);
         graph.addEdge(0, 1, 10);
-        graph.addEdge(0, 1, 5); // parallel, lighter
+        graph.addEdge(0, 1, 5);
         graph.addEdge(1, 2, 8);
         graph.addEdge(2, 3, 12);
-        graph.addEdge(0, 0, 1); // self-loop
-        graph.addEdge(3, 3, 2); // self-loop
+        graph.addEdge(0, 0, 1);
+        graph.addEdge(3, 3, 2);
 
         MSTResult kruskal = KruskalMST.findMST(graph);
         MSTResult prim = PrimMST.findMST(graph);

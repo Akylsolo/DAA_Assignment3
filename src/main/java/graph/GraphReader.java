@@ -8,11 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.StringTokenizer;
 
-/**
- * Reads and writes Graph objects in standard text format:
- * First line: n m directed|undirected
- * Next m lines: u v w
- */
 public class GraphReader {
 
     public static Graph readFromFile(Path path) throws IOException {
@@ -31,7 +26,6 @@ public class GraphReader {
         String line;
         StringTokenizer st = null;
 
-        // Skip comments and empty lines until header
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) continue;

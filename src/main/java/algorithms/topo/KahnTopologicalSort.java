@@ -9,11 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-/**
- * Kahn's algorithm for topological sorting and cycle detection.
- * Maintains in-degrees and processes 0-in-degree vertices with a FIFO queue.
- * Detects cycles when fewer than n vertices can be topologically ordered.
- */
 public class KahnTopologicalSort {
 
     public static class CycleDetectedException extends IllegalStateException {
@@ -59,9 +54,6 @@ public class KahnTopologicalSort {
         return new TopologicalResult(hasCycle, order, metrics);
     }
 
-    /**
-     * Validates that for every directed edge u -> v, pos[u] < pos[v].
-     */
     public static boolean validateOrder(Graph graph, List<Integer> order) {
         int n = graph.getN();
         if (order.size() != n) {

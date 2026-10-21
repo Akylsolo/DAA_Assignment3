@@ -9,11 +9,6 @@ import metrics.OperationMetrics;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Computes single-source / multi-source shortest paths on a DAG in O(V + E) time.
- * All in-degree 0 vertices start at distance 0 (acting as a virtual super-source).
- * Safely handles arbitrary edge weights (including negative weights).
- */
 public class DagShortestPath {
 
     public static final long INF = Long.MAX_VALUE / 4;
@@ -39,14 +34,12 @@ public class DagShortestPath {
         Arrays.fill(dist, INF);
         Arrays.fill(parent, -1);
 
-        // Every vertex with in-degree 0 starts at distance 0 (virtual super-source)
         for (int i = 0; i < n; i++) {
             if (inDegree[i] == 0) {
                 dist[i] = 0;
             }
         }
 
-        // Single pass relaxation in topological order
         for (int u : topoOrder) {
             if (dist[u] >= INF) {
                 continue;
